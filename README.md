@@ -1,28 +1,28 @@
 # Learn Git (Webflyx) 
 
-This is a toy repo from the lesson [Learn Git](https://www.boot.dev/courses/learn-git) lesson of [boot.dev](https://www.boot.dev/). It cointains no real program or code.
+This is a toy repo from the lesson [Learn Git](https://www.boot.dev/courses/learn-git) of [boot.dev](https://www.boot.dev/). It contains no real program or code.
 
-I am not a beginner of using git and I quickly finished this course for purpose of a refresh. 
-It was a nice quick exercise on git, and there were plenty of stuffs I didn't know.
+I am not a beginner at using Git and I quickly finished this course for the purpose of a refresh.  
+It was a nice quick exercise on Git, and there were plenty of things I didn't know.
 
 ## My Takeaways
 
 ### General 
 
-* porcelain vs plumbing commands
-* use git swith instead of git checkout
-* rebase vs merge
+* Porcelain vs plumbing commands
+* Use `git switch` instead of `git checkout`
+* Rebase vs merge:
     * A merge B: 
         * Commits from B are merged into A. If histories diverged, Git creates a merge commit.
-        * Typical scenario: A=main (or develop) B=feature  
+        * Typical scenario: A = main (or develop), B = feature  
         * Think: I will update the main branch by merging in a finished feature.
     * A rebase B: 
         * Commits on A are re-applied on top of B. History becomes linear, no merge commit.
-        * Typical scenario: A=feature B=main
-            * Make the feature branch (A) up to date with main (B), before merging it back.
-        * Think: I will rebase my finished feature on the main branch.
+        * Typical scenario: A = feature, B = main
+            * Make the feature branch (A) up to date with main (B) before merging it back.
+        * Think: I will rebase my finished feature onto the main branch.
         * Careful: Could mess up actual history to get a simpler, readable linear history
-* git remote add <remote_path>  can accept another local dir as remote
+* `git remote add <remote_path>` can accept another local dir as remote
 
 
 ### Basics
@@ -106,24 +106,24 @@ Date:   Tue Jul 22 10:19:55 2025 +0800
     N: add advert.md
 ```
 
-The commit withg hash: 88199bea8726c746e7097a4d8d7bc4824586f975 has a commit message of "N: add advert.md"
+The commit with hash `88199bea8726c746e7097a4d8d7bc4824586f975` has a commit message of "N: add advert.md".
 
 ### Inspecting .git/
 
-The hidden directory .git stores all the data. List a few below  
+The hidden directory `.git` stores all the data. A few examples:  
 
 ```
 .git/
   - config
   - HEAD
   - objects
-    - tree: git's way of storing a directory
-    - blob: git's way of storing a file 
+    - tree: Git's way of storing a directory
+    - blob: Git's way of storing a file 
   - refs
   - ...
 ```
 
-`.git/config` is just a human readable text file
+`.git/config` is just a human-readable text file
 
 ```
 % cat .git/config 
@@ -142,7 +142,7 @@ The hidden directory .git stores all the data. List a few below
         rebase = false
 ```
 
-`.git/objects` stores objects organized by hash in a two layer structure
+`.git/objects` stores objects organized by hash in a two-layer structure:
 ```
 % ls .git/objects 
 
@@ -154,20 +154,20 @@ The hidden directory .git stores all the data. List a few below
 % ls .git/objects/88 
 
 199bea8726c746e7097a4d8d7bc4824586f975
-
 ```
-The file: `.git/objects/88/199bea8726c746e7097a4d8d7bc4824586f975` is not human readable.
-The Concated path is the hash: 88199bea8726c746e7097a4d8d7bc4824586f975 (<- this is a commit)
 
+The file `.git/objects/88/199bea8726c746e7097a4d8d7bc4824586f975` is not human-readable.  
+The full path is the hash: `88199bea8726c746e7097a4d8d7bc4824586f975` (this is a commit).
 
-Tho inspect an object (trees and blobs), use `git cat-file`
+To inspect an object (trees and blobs), use `git cat-file`:
+
 ``` 
 git cat-file -p <hash>
 ```
 
 #### Example
 
-Inspect the commit 88199be (N: add advert.md)
+Inspect the commit `88199be` ("N: add advert.md"):
 
 ```
 % git cat-file -p 88199be                             # a commit has a tree and other info such as its parent, author, committer
@@ -178,7 +178,7 @@ author lywang <wellmax111@gmail.com> 1753150795 +0800
 committer lywang <wellmax111@gmail.com> 1753150795 +0800
 
 
-% git cat-file -p 4dabae4426a5e83422ea5028ccea14d10233c5a7   # inspect the tree to see files and sub directories
+% git cat-file -p 4dabae4426a5e83422ea5028ccea14d10233c5a7   # inspect the tree to see files and subdirectories
 
 100644 blob 71cd44506934a2f30b3dca4e65669e8301144ed9    .gitignore
 100644 blob b2490156fcf1697d1c2f85dd0d371ebed5e6b72b    advert.md
@@ -186,11 +186,9 @@ committer lywang <wellmax111@gmail.com> 1753150795 +0800
 100644 blob 2364d34556096bdfd293e710a1327fa8e61a8c6b    contents.md
 040000 tree 2ab70c0d45a01dd115f25e49a3a73c0de4a2f829    quotes
 100644 blob 4af38198e0fc38ae7d81ef3b6269f275d1ae6535    titles.md
-
 ```
 
 ### Configuration
-
 
 ```
 git config
@@ -199,22 +197,19 @@ git config
   --add <key> <value>
   --unset <key>   # remove a value
   --remove-section <section>   # remove entire section
-  
 ```
 
-Most common usage
+Most common usage:
 ```
 git config --add --global user.name "Your user name"
 git config --add --global user.email "Your email"
 ```
 
-
 #### Configuration file locations
 
-* system: `/etc/gitconfig`, a file that configures Git for all users on the system
-* global: `~/.gitconfig`, a file that configures Git for all projects of a user
-* local: `.git/config`, a file that configures Git for a specific project
-* worktree: `.git/config.worktree`, a file that configures Git for part of a project
+* system: `/etc/gitconfig`, configures Git for all users on the system
+* global: `~/.gitconfig`, configures Git for all projects of a user
+* local: `.git/config`, configures Git for a specific project
+* worktree: `.git/config.worktree`, configures Git for part of a project
 
-(system and worktree are rarely needed)
-
+(System and worktree are rarely needed)
